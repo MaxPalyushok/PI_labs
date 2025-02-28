@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: grey;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px solid black;
+}
+
+b {
+    display: flex;
+    justify-content: center;
+}
+
+.page_name {
+    display: flex;
+    align-items: center;
+    padding-left: 1%;
+}
+
+.header_btn {
+    margin: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.notification_btn {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: 0;
+}
+
+.user_btn {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: transparent;
+    border: 0;
+}
+
+.user_name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    white-space: nowrap;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown_content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #ddd;
+    border: 2px solid black;
+}
+
+.dropdown_content a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown_content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown_content {
+    display: block;
+} 
+
+.navigation_btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    min-width: 10%;
+}
+
+.dashboard_content {
+    display: none;
+}
+
+.student_content {
+    display: none;
+    min-width: 70%;
+}
+
+.task_content {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.data {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add {
+    margin-right: 5%;
+    margin-bottom: 5%;
+    float: right;
+}
+
+.edit_btns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pagination {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination_btn {
+    margin-left: .5%;
+    margin-right: .5%;
+}
+
+#white_background {
+    fill: white;
+    color: white;
+    text-align: justify;
+    font-size: 16px;
+}
+
+/**/
