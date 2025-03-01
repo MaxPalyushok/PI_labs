@@ -17,6 +17,12 @@ td {
     border: 2px solid black;
 }
 
+td div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 b {
     display: flex;
     justify-content: center;
@@ -90,6 +96,7 @@ b {
     flex-direction: column;
     justify-content: left;
     min-width: 10%;
+    margin-top: 5%;
 }
 
 .dashboard_content {
@@ -130,6 +137,7 @@ b {
 
 .pagination {
     margin-top: 5%;
+    margin-bottom: 3%;
     display: flex;
     justify-content: center;
 }
