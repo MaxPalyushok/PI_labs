@@ -1,13 +1,18 @@
+window.onload = function() {
+    show_content('student_content');
+};
+
 function show_content(content_id) {
     const content = document.querySelectorAll('.dashboard_content, .student_content, .task_content');
 
     content.forEach(content => content.classList.remove('active'));
 
     document.getElementById(content_id).classList.add('active');
-};
 
-window.onload = function() {
-    show_content('student_content')
+    let btn = document.querySelectorAll(".navigation_btn button");
+    btn.forEach(btn => btn.classList.remove("active_btn"));
+
+    event.target.classList.add("active_btn");
 };
 
 function add_user() {
@@ -15,12 +20,21 @@ function add_user() {
     let new_row = table.insertRow();
 
     new_row.innerHTML = `
-    <td><input type="checkbox"></td>
+    <td><div><input type="checkbox"></div></td>
     <td><b>PZ-26</b></td>
     <td><b>John Doe</b></td>
     <td><b>Male</b></td>
     <td><b>01.01.2000</b></td>
-    <td><b>active</b></td>
+    <td>
+        <b>
+            <svg
+                viewBox="0 0 30 14"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#bfbfbf">
+                <circle cx="15" cy="7" r="3" />
+            </svg>
+        </b>
+    </td>
     <td>
         <div class="edit_btns">
             <button>

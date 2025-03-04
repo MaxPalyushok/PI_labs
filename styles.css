@@ -23,9 +23,23 @@ td div {
     align-items: center;
 }
 
+td svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 b {
     display: flex;
     justify-content: center;
+}
+
+.naming {
+    display: flex;
+    align-items: center;
+    color: #f2f2f2;
+    text-decoration: none;
+    margin-left: 1%;
 }
 
 .page_name {
@@ -45,6 +59,8 @@ b {
     align-items: center;
     background: transparent;
     border: 0;
+    padding: 0;
+    position: relative;
 }
 
 .user_btn {
@@ -54,6 +70,8 @@ b {
     justify-content: space-around;
     background: transparent;
     border: 0;
+    text-decoration: none;
+    margin-left: 5px;
 }
 
 .user_name {
@@ -62,6 +80,7 @@ b {
     align-items: center;
     margin-left: 5px;
     white-space: nowrap;
+    color: white;
 }
 
 .dropdown {
@@ -96,7 +115,21 @@ b {
     flex-direction: column;
     justify-content: left;
     min-width: 10%;
-    margin-top: 5%;
+}
+
+.navigation_btn a{
+    text-decoration: none;
+    color: #353535;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.navigation_btn a:hover{
+    font-weight: bold;
+}
+
+.active_btn {
+    font-weight: bold;
 }
 
 .dashboard_content {
@@ -147,11 +180,47 @@ b {
     margin-right: .5%;
 }
 
-#white_background {
-    fill: white;
-    color: white;
-    text-align: justify;
+.navigation_btn button {
     font-size: 16px;
+    border: 0;
+    background-color: white;
+    margin: 3%;
 }
 
-/**/
+.circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #FF0055;
+    position: absolute;
+    top: 0px; /* Зміщення вверх */
+    right: 0px; /* Зміщення вправо */
+}
+
+.circle::before {
+    content: " ";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    animation: circle_blinking 2s infinite;
+}
+
+/*.circle::before {
+    animation: circle_blinking 2s infinite;
+    position: absolute;
+    background-color: red;
+}*/
+
+@keyframes circle_blinking {
+    50% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
