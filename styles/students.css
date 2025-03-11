@@ -1,0 +1,295 @@
+body {
+    margin: 0;
+}
+
+/*хедер*/
+
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: grey;
+}
+
+.naming {
+    display: flex;
+    align-items: center;
+    color: #f2f2f2;
+    text-decoration: none;
+    margin-left: 1%;
+}
+
+.page_name {
+    display: flex;
+    align-items: center;
+    padding-left: 1%;
+}
+
+.header_btn {
+    margin: 5px;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    gap: 7px;
+}
+
+.notification_btn {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    position: relative;
+}
+
+.user_btn {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: transparent;
+    border: 0;
+    text-decoration: none;
+}
+
+.user_name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    white-space: nowrap;
+    color: white;
+}
+
+/*вспливаюче меню акаунта*/
+
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown_content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #ddd;
+    border: 2px solid black;
+    top: 100%;
+}
+
+.dropdown_content a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown_content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown_content {
+    display: block;
+} 
+
+/*вспливаюче меню повідомлень*/
+
+.notification {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notification_dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ddd;
+    border: 2px solid black;
+    top: 100%;
+    min-width: 150px;
+
+}
+
+.notification:hover .notification_dropdown {
+    display: block;
+}
+
+.message_user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #bbb;
+}
+
+/*дані (все крім хедера)*/
+
+.data {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*ліве меню*/
+
+.navigation_btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    min-width: 10%;
+}
+
+.navigation_btn a{
+    text-decoration: none;
+    color: #353535;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.navigation_btn a:hover{
+    font-weight: bold;
+}
+
+.navigation_btn .active_btn {
+    font-weight: bold;
+    
+}
+
+/*індекатор повідомлень*/
+
+.circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #FF0055;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.circle::before {
+    content: " ";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    animation: circle_blinking 2s infinite;
+}
+
+/*таблиця*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px solid black;
+}
+
+td div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+td svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+b {
+    display: flex;
+    justify-content: center;
+}
+
+.edit_btns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.add {
+    margin-right: 5%;
+    margin-bottom: 5%;
+    float: right;
+}
+
+/*контенти*/
+
+.student_content {
+    min-width: 70%;
+}
+
+/*пагінація*/
+.pagination {
+    margin-top: 5%;
+    margin-bottom: 3%;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination_btn {
+    margin-left: .5%;
+    margin-right: .5%;
+}
+
+/*фрейм для миготіння*/
+
+@keyframes circle_blinking {
+    50% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Стилі для модального вікна */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.modal_content div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10%;
+}
+
+.modal_content input, .modal_content select {
+    width: 60%;
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/*кнопки зліва і пагінація, гіт відкрити і лінк в звіт*/

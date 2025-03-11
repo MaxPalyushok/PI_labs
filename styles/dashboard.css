@@ -2,36 +2,12 @@ body {
     margin: 0;
 }
 
+/*хедер*/
+
 header {
     display: flex;
     justify-content: space-between;
     background-color: grey;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td {
-    border: 2px solid black;
-}
-
-td div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-td svg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-b {
-    display: flex;
-    justify-content: center;
 }
 
 .naming {
@@ -52,6 +28,8 @@ b {
     margin: 5px;
     display: flex;
     justify-content: space-around;
+    position: relative;
+    gap: 7px;
 }
 
 .notification_btn {
@@ -71,7 +49,6 @@ b {
     background: transparent;
     border: 0;
     text-decoration: none;
-    margin-left: 5px;
 }
 
 .user_name {
@@ -83,9 +60,12 @@ b {
     color: white;
 }
 
+/*вспливаюче меню акаунта*/
+
 .dropdown {
     position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 .dropdown_content {
@@ -94,6 +74,7 @@ b {
     right: 0;
     background-color: #ddd;
     border: 2px solid black;
+    top: 100%;
 }
 
 .dropdown_content a {
@@ -109,6 +90,47 @@ b {
 .dropdown:hover .dropdown_content {
     display: block;
 } 
+
+/*вспливаюче меню повідомлень*/
+
+.notification {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notification_dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ddd;
+    border: 2px solid black;
+    top: 100%;
+    min-width: 150px;
+
+}
+
+.notification:hover .notification_dropdown {
+    display: block;
+}
+
+.message_user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #bbb;
+}
+
+/*дані (все крім хедера)*/
+
+.data {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*ліве меню*/
 
 .navigation_btn {
     display: flex;
@@ -128,58 +150,6 @@ b {
     font-weight: bold;
 }
 
-.active_btn {
-    font-weight: bold;
-}
-
-.dashboard_content {
-    display: none;
-}
-
-.student_content {
-    display: none;
-    min-width: 70%;
-}
-
-.task_content {
-    display: none;
-}
-
-.active {
-    display: block;
-}
-
-.data {
-    margin-top: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.add {
-    margin-right: 5%;
-    margin-bottom: 5%;
-    float: right;
-}
-
-.edit_btns {
-    display: flex;
-    justify-content: space-around;
-}
-
-.pagination {
-    margin-top: 5%;
-    margin-bottom: 3%;
-    display: flex;
-    justify-content: center;
-}
-
-.pagination_btn {
-    margin-left: .5%;
-    margin-right: .5%;
-}
-
 .navigation_btn button {
     font-size: 16px;
     border: 0;
@@ -187,14 +157,16 @@ b {
     margin: 3%;
 }
 
+/*індекатор повідомлень*/
+
 .circle {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: #FF0055;
     position: absolute;
-    top: 0px; /* Зміщення вверх */
-    right: 0px; /* Зміщення вправо */
+    top: 0px;
+    right: 0px;
 }
 
 .circle::before {
@@ -205,22 +177,4 @@ b {
     background-color: red;
     position: absolute;
     animation: circle_blinking 2s infinite;
-}
-
-/*.circle::before {
-    animation: circle_blinking 2s infinite;
-    position: absolute;
-    background-color: red;
-}*/
-
-@keyframes circle_blinking {
-    50% {
-        transform: scale(2);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(2);
-        opacity: 0;
-    }
 }
