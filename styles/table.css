@@ -1,0 +1,39 @@
+/*таблиця*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px solid black;
+}
+
+td div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+td svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+b {
+    display: flex;
+    justify-content: center;
+}
+
+.edit_btns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.add {
+    margin-right: 5%;
+    margin-bottom: 5%;
+    float: right;
+}
+
+/*кнопки зліва і пагінація, гіт відкрити і лінк в звіт*/

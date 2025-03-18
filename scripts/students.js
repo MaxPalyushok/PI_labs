@@ -1,11 +1,53 @@
+const students = [];
+const students_per_page = 2;
+let current_page = 1;
+let editing_index = -1;
+
+students.push({
+    first_name: "Ivan",
+    last_name: "Petrenko",
+    gender: "Male",
+    birthday: "15.03.2002",
+    group: "PZ-21"
+});
+
+students.push({
+    first_name: "Maksym",
+    last_name: "Palyushok",
+    gender: "Male",
+    birthday: "02.05.2006",
+    group: "PZ-26"
+});
+
+students.push({
+    first_name: "Kyryl",
+    last_name: "Ponomarenko",
+    gender: "Male",
+    birthday: "20.06.2006",
+    group: "PZ-26"
+});
+
 document.querySelector(".close").onclick = close_modal_window;
 document.getElementById("open_add_window").onclick = open_modal_window;
 document.getElementById("save_student").onclick = add_student;
 document.getElementById("cancel_student").onclick = close_modal_window;
 
+document.getElementById("pagination_prev_btn").onclick = function() {
+    if (current_page > 1) {
+        current_page--;
+        update_table();
+    }
+};
+
+document.getElementById("pagination_next_btn").onclick = function() {
+    let total_pages = Math.ceil(students.length / students_per_page);
+    if (current_page < total_pages) {
+        current_page++;
+        update_table();
+    }
+};
 
 function open_modal_window() {
-    
     document.getElementById("user_modal").style.display = "block";
 }
 
@@ -38,103 +80,184 @@ function add_student() {
 
     let formatted_date = new Date(birthday).toLocaleDateString("uk-UA");
 
-    let table = document.querySelector(".student_content table tbody");
-    let new_row = table.insertRow();
+    if (editing_index === -1) {
+        // Додаємо нового студента
+        students.push({first_name, last_name, gender, birthday: formatted_date, group});
+    } else {
+        // Оновлюємо існуючого студента
+        students[editing_index] = { first_name, last_name, gender, birthday: formatted_date, group};
+        editing_index = -1; // Скидаємо індекс редагування
+    }
 
-    new_row.innerHTML = `
-    <td><div><input type="checkbox"></div></td>
-    <td><b>${group}</b></td>
-    <td><b class="student_name">${first_name} ${last_name}</b></td>
-    <td><b>${gender}</b></td>
-    <td><b>${formatted_date}</b></td>
-    <td>
-        <b>
-            <svg viewBox="0 0 30 14" xmlns="http://www.w3.org/2000/svg" fill="#bfbfbf">
-                <circle cx="15" cy="7" r="3" />
-            </svg>
-        </b>
-    </td>
-    <td>
-        <div class="edit_btns">
-            <button onclick="edit_row(this)">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
-                    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
-                </svg>
-            </button>
+    console.log(students);
+    close_modal_window(); // Закриваємо модальне вікно після додавання студента
 
-            <button onclick="delete_row(this)">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-                </svg>  
-            </button>
-        </div>
-    </td>
-    `;
-
-    close_modal_window();
+    update_table(); // Оновлюємо таблицю після додавання нового студента
 }
+
+function update_table() {
+    let table_body = document.querySelector(".student_content table tbody");
+    table_body.innerHTML = ""; // Очищаємо поточний вміст таблиці
+
+    let start = (current_page - 1) * students_per_page;
+    let end = start + students_per_page;
+    let show_students = students.slice(start, end); // Вибираємо студентів для поточної сторінки
+
+    show_students.forEach((student, index) => {
+        let new_row = table_body.insertRow(index);
+        new_row.innerHTML = `
+            <td><div><input type="checkbox"></div></td>
+            <td><b>${student.group}</b></td>
+            <td><b class="student_name">${student.first_name} ${student.last_name}</b></td>
+            <td><b>${student.gender}</b></td>
+            <td><b>${student.birthday}</b></td>
+            <td>
+                <b>
+                    <svg viewBox="0 0 30 14" xmlns="http://www.w3.org/2000/svg" fill="#bfbfbf">
+                        <circle cx="15" cy="7" r="3" />
+                    </svg>
+                </b>
+            </td>
+            <td>
+                <div class="edit_btns">
+                    <button onclick="edit_row(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                            <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                        </svg>
+                    </button>
+
+                    <button onclick="delete_row(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                        </svg>  
+                    </button>
+                </div>
+            </td>
+            `;
+    });
+
+    update_pagination(); // Оновлюємо пагінацію після зміни даних у таблиці
+}
+
+
+function update_pagination() {
+    let pagination = document.querySelector(".pagination_num_btns");
+    pagination.innerHTML = "";
+
+    let total_pages = Math.ceil(students.length / students_per_page);
+
+    for (let i = 1; i <= total_pages; i++) {
+        let new_button = document.createElement("button");
+        new_button.textContent = i;
+        new_button.onclick = function() {
+            current_page = i;
+            update_table();
+        };
+
+        if (current_page === i) {
+            new_button.classList.add("active");
+        }
+
+        pagination.appendChild(new_button);
+    }
+
+    // Виправлення доступу до кнопок `prev` та `next`
+    let prev_btn = document.getElementById("pagination_prev_btn");
+    let next_btn = document.getElementById("pagination_next_btn");
+
+    prev_btn.hidden = current_page === 1;
+    next_btn.hidden = current_page === total_pages;
+}
+
 
 function delete_row(btn) {
-    const row = btn.closest("tr");
-
-    if (row) {
-        const name = row.querySelector(".student_name")?.textContent || "цього користувача";
-        const confirmDelete = confirm(`Ви впевнені, що хочете видалити користувача з ім'ям "${name}"?`);
-
-        if (confirmDelete) {
-            row.remove();
-        }
-    }
-}
-
-function edit_row(btn) {
     const row = btn.closest("tr");
 
     if (!row) {
         return;
     }
 
-    // Зберігаємо значення, що зараз є в таблиці
     let group = row.cells[1].textContent.trim();
     let full_name = row.cells[2].textContent.trim();
     let gender = row.cells[3].textContent.trim();
     let birthday = row.cells[4].textContent.trim();
 
-    // Розділяємо ім'я та прізвище
     let [first_name, last_name] = full_name.split(" ");
 
-    // Встановлюємо значення у форму для редагування
-    document.getElementById("student_first_name").value = first_name;
-    document.getElementById("student_last_name").value = last_name;
-    document.getElementById("student_gender").value = gender;
-    
-    let [day, month, year] = birthday.split('.');
-    let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    document.getElementById("student_birthday").value = formattedDate;
+    // Показуємо вікно підтвердження перед видаленням
+    const confirmation = confirm(`Ви дійсно хочете видалити студента ${first_name} ${last_name}?`);
 
-    document.getElementById("student_group").value = group;
+    if (confirmation) {
+        // Видаляємо рядок з таблиці
+        row.remove();
 
-    document.getElementById("modal_title").textContent = "Edit student";
-    document.getElementById("save_student").textContent = "Save";
-    document.getElementById("user_modal").setAttribute("data-editing-row", row.rowIndex);
+        // Якщо є масив students, видаляємо елемент з нього
+        let index = students.findIndex(student => 
+            student.first_name === first_name &&
+            student.last_name === last_name &&
+            student.group === group &&
+            student.gender === gender &&
+            student.birthday === birthday
+        );
 
+        if (index !== -1) {
+            students.splice(index, 1); // Видаляємо елемент з масиву
+        }
 
-    open_modal_window();
-
-    // Обробник збереження змін при натисканні кнопки "Зберегти"
-    document.getElementById("save_student").onclick = function() {
-
-        const first_name = document.getElementById("student_first_name").value;
-        const last_name = document.getElementById("student_last_name").value;
-        const gender = document.getElementById("student_gender").value;
-        const birthday = document.getElementById("student_birthday").value;
-        const group = document.getElementById("student_group").value;
-
-        row.cells[1].querySelector("b").textContent = group;
-        row.cells[2].querySelector("b").textContent = first_name + " " + last_name;
-        row.cells[3].querySelector("b").textContent = gender;
-        row.cells[4].querySelector("b").textContent = birthday.split('-').reverse().join('.');
-
-        close_modal_window();
-    };
+        console.log(students);
+        update_table();
+    }
 }
+
+function edit_row(btn) {
+    const row = btn.closest("tr");
+    if (!row) return;
+
+    let group = row.cells[1].textContent.trim();
+    let full_name = row.cells[2].textContent.trim();
+    let gender = row.cells[3].textContent.trim();
+    let birthday = row.cells[4].textContent.trim();
+
+    let [first_name, last_name] = full_name.split(" ");
+
+    let index = students.findIndex(student => 
+        student.first_name === first_name &&
+        student.last_name === last_name &&
+        student.group === group &&
+        student.gender === gender &&
+        student.birthday === birthday
+    );
+
+    if (index !== -1) {
+        editing_index = index;
+
+        document.getElementById("modal_title").textContent = "Edit student";
+        document.getElementById("save_student").textContent = "Save";
+
+        document.getElementById("student_first_name").value = students[index].first_name;
+        document.getElementById("student_last_name").value = students[index].last_name;
+        document.getElementById("student_group").value = students[index].group;
+        document.getElementById("student_gender").value = students[index].gender;
+
+        let date = students[index].birthday;
+
+        // Якщо дата в форматі dd.mm.yyyy (наприклад, "18.03.2025"), перетворимо її в yyyy-mm-dd
+        if (date) {
+            let parts = date.split("."); // Розділяємо на день, місяць і рік
+            let formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Переставляємо в формат yyyy-mm-dd
+
+            // Виводимо дату у консоль для перевірки
+            console.log("Original Date:", date);
+            console.log("Formatted Date:", formattedDate);
+
+            // Встановлюємо відформатовану дату в поле <input type="date">
+            document.getElementById("student_birthday").value = formattedDate;
+        }
+        document.getElementById("user_modal").style.display = "block";
+    }
+}
+
+
+
+update_table();
+console.log(students);

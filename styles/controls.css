@@ -1,0 +1,42 @@
+/*дані (все крім хедера)*/
+.hidden {
+    display: none;
+}
+
+.data {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*ліве меню*/
+.navigation_btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    min-width: 10%;
+}
+
+.navigation_btn a{
+    margin: 4% 0;
+    text-decoration: none;
+    color: #353535;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.3em;
+}
+
+.navigation_btn a:hover{
+    font-weight: bold;
+}
+
+.navigation_btn .active_btn {
+    font-weight: bold;    
+}
+
+/*контент*/
+.student_content {
+    min-width: 70%;
+}

@@ -120,45 +120,7 @@ header {
     background-color: #bbb;
 }
 
-/*дані (все крім хедера)*/
-
-.data {
-    margin-top: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    display: flex;
-    justify-content: space-between;
-}
-
-/*ліве меню*/
-
-.navigation_btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    min-width: 10%;
-}
-
-.navigation_btn a{
-    text-decoration: none;
-    color: #353535;
-    font-style: normal;
-    font-weight: normal;
-}
-
-.navigation_btn a:hover{
-    font-weight: bold;
-}
-
-.navigation_btn button {
-    font-size: 16px;
-    border: 0;
-    background-color: white;
-    margin: 3%;
-}
-
 /*індекатор повідомлень*/
-
 .circle {
     width: 10px;
     height: 10px;
@@ -177,4 +139,17 @@ header {
     background-color: red;
     position: absolute;
     animation: circle_blinking 2s infinite;
+}
+
+/*фрейм для миготіння*/
+@keyframes circle_blinking {
+    50% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
 }

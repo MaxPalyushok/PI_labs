@@ -1,0 +1,25 @@
+{
+    "students": [
+        {
+            "first_name": "Ivan",
+            "last_name": "Petrenko",
+            "gender": "Male",
+            "birthday": "03/15/2002",
+            "group": "IT-21"
+        },
+        {
+            "first_name": "Maria",
+            "last_name": "Ivanenko",
+            "gender": "Female",
+            "birthday": "07/22/2003",
+            "group": "IT-21"
+        },
+        {
+            "first_name": "Alexander",
+            "last_name": "Sydorenko",
+            "gender": "Male",
+            "birthday": "12/10/2001",
+            "group": "IT-22"
+        }
+    ]
+}
