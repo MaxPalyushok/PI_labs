@@ -80,28 +80,28 @@ function add_student() {
 
     let formatted_date = new Date(birthday).toLocaleDateString("uk-UA");
 
+    let student_data = {first_name, last_name, gender, birthday: formatted_date, group};
+
     if (editing_index === -1) {
-        // Додаємо нового студента
-        students.push({first_name, last_name, gender, birthday: formatted_date, group});
+        students.push(student_data);
     } else {
-        // Оновлюємо існуючого студента
-        students[editing_index] = { first_name, last_name, gender, birthday: formatted_date, group};
-        editing_index = -1; // Скидаємо індекс редагування
+        students[editing_index] = student_data;
+        editing_index = -1;
     }
 
     console.log(students);
-    close_modal_window(); // Закриваємо модальне вікно після додавання студента
+    close_modal_window();
 
-    update_table(); // Оновлюємо таблицю після додавання нового студента
+    update_table();
 }
 
 function update_table() {
     let table_body = document.querySelector(".student_content table tbody");
-    table_body.innerHTML = ""; // Очищаємо поточний вміст таблиці
+    table_body.innerHTML = "";
 
     let start = (current_page - 1) * students_per_page;
     let end = start + students_per_page;
-    let show_students = students.slice(start, end); // Вибираємо студентів для поточної сторінки
+    let show_students = students.slice(start, end);
 
     show_students.forEach((student, index) => {
         let new_row = table_body.insertRow(index);
@@ -135,8 +135,7 @@ function update_table() {
             </td>
             `;
     });
-
-    update_pagination(); // Оновлюємо пагінацію після зміни даних у таблиці
+    update_pagination();
 }
 
 
@@ -161,7 +160,6 @@ function update_pagination() {
         pagination.appendChild(new_button);
     }
 
-    // Виправлення доступу до кнопок `prev` та `next`
     let prev_btn = document.getElementById("pagination_prev_btn");
     let next_btn = document.getElementById("pagination_next_btn");
 
@@ -184,14 +182,11 @@ function delete_row(btn) {
 
     let [first_name, last_name] = full_name.split(" ");
 
-    // Показуємо вікно підтвердження перед видаленням
-    const confirmation = confirm(`Ви дійсно хочете видалити студента ${first_name} ${last_name}?`);
+    const confirmation = confirm(`Are you sure you want to delete user: ${first_name} ${last_name}?`);
 
     if (confirmation) {
-        // Видаляємо рядок з таблиці
         row.remove();
 
-        // Якщо є масив students, видаляємо елемент з нього
         let index = students.findIndex(student => 
             student.first_name === first_name &&
             student.last_name === last_name &&
@@ -201,7 +196,7 @@ function delete_row(btn) {
         );
 
         if (index !== -1) {
-            students.splice(index, 1); // Видаляємо елемент з масиву
+            students.splice(index, 1);
         }
 
         console.log(students);
@@ -241,23 +236,18 @@ function edit_row(btn) {
 
         let date = students[index].birthday;
 
-        // Якщо дата в форматі dd.mm.yyyy (наприклад, "18.03.2025"), перетворимо її в yyyy-mm-dd
         if (date) {
-            let parts = date.split("."); // Розділяємо на день, місяць і рік
-            let formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Переставляємо в формат yyyy-mm-dd
+            let parts = date.split(".");
+            let formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-            // Виводимо дату у консоль для перевірки
             console.log("Original Date:", date);
             console.log("Formatted Date:", formattedDate);
 
-            // Встановлюємо відформатовану дату в поле <input type="date">
             document.getElementById("student_birthday").value = formattedDate;
         }
         document.getElementById("user_modal").style.display = "block";
     }
 }
-
-
 
 update_table();
 console.log(students);

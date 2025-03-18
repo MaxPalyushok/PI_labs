@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/styles/table.css">
     <link rel="stylesheet" href="/styles/modal.css">
     <link rel="stylesheet" href="/styles/pagination.css">
+    <link rel="manifest" href="/manifest.json">
 </head>
 
 <body>
@@ -187,6 +188,14 @@
 
     </div>
     
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/service_worker.js')
+            .then(reg => console.log('Service Worker зареєстровано', reg))
+            .catch(err => console.log('Помилка реєстрації Service Worker', err));
+        }
+      </script>
+      
     <script src="/scripts/students.js"></script>
 </body>
 </html>

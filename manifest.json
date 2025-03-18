@@ -1,0 +1,33 @@
+{
+    "short_name": "CMS",
+    "name": "PI Lab",
+    "description": "Content Management System for PI Lab",
+    "icon": [
+        {
+            "src": "/icons/www-512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/www-144.png",
+            "type": "image/png",
+            "sizes": "144x144",
+            "purpose": "any"
+        }
+    ],
+
+    "screenshots": [
+        {
+            "src": "/icons/screenshot-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ],
+
+    "start_url": "/pages/students.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000"
+}
