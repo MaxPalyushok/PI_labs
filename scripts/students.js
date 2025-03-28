@@ -1,36 +1,21 @@
 const students = [];
-const students_per_page = 2;
+const students_per_page = 3;
 let current_page = 1;
-let editing_index = -1;
-
-students.push({
-    first_name: "Ivan",
-    last_name: "Petrenko",
-    gender: "Male",
-    birthday: "15.03.2002",
-    group: "PZ-21"
-});
-
-students.push({
-    first_name: "Maksym",
-    last_name: "Palyushok",
-    gender: "Male",
-    birthday: "02.05.2006",
-    group: "PZ-26"
-});
-
-students.push({
-    first_name: "Kyryl",
-    last_name: "Ponomarenko",
-    gender: "Male",
-    birthday: "20.06.2006",
-    group: "PZ-26"
-});
+let current_id = 0;
 
 document.querySelector(".close").onclick = close_modal_window;
 document.getElementById("open_add_window").onclick = open_modal_window;
-document.getElementById("save_student").onclick = add_student;
+document.getElementById("add_student").onclick = add_student;
+document.getElementById("save_student").onclick = edit_row;
 document.getElementById("cancel_student").onclick = close_modal_window;
+
+document.getElementById("all_checked").addEventListener("change", function () {
+    const isChecked = this.checked;
+    document.querySelectorAll('input[type="checkbox"].student_checkbox').forEach(checkbox => {
+        checkbox.checked = isChecked;
+    });
+});
+
 
 document.getElementById("pagination_prev_btn").onclick = function() {
     if (current_page > 1) {
@@ -49,11 +34,11 @@ document.getElementById("pagination_next_btn").onclick = function() {
 
 function open_modal_window() {
     document.getElementById("user_modal").style.display = "block";
+    document.getElementById("add_student").style.display = "block";
+    document.getElementById("save_student").style.display = "none";
 }
 
 function close_modal_window() {
-    document.getElementById("modal_title").textContent = "Add student";
-    document.getElementById("save_student").textContent = "Add";
 
     document.getElementById("student_first_name").value = "";
     document.getElementById("student_last_name").value = "";
@@ -67,32 +52,37 @@ function close_modal_window() {
 
 function add_student() {
 
-    let first_name = document.getElementById("student_first_name").value.trim();
-    let last_name = document.getElementById("student_last_name").value.trim();
-    let gender = document.getElementById("student_gender").value;
-    let birthday = document.getElementById("student_birthday").value;
-    let group = document.getElementById("student_group").value;
+    open_modal_window();
+    
+    const studentData = {
+        first_name: document.getElementById("student_first_name").value.trim(),
+        last_name: document.getElementById("student_last_name").value.trim(),
+        gender: document.getElementById("student_gender").value,
+        birthday: document.getElementById("student_birthday").value,
+        group: document.getElementById("student_group").value
+    };
 
-    if (!first_name || !last_name || !birthday || !group) {
+    if (!studentData.first_name || !studentData.last_name || !studentData.birthday || !studentData.group) {
         alert("Будь ласка, заповніть всі поля!");
         return;
     }
 
-    let formatted_date = new Date(birthday).toLocaleDateString("uk-UA");
+    let student_data = {
+        id: current_id++,
+        first_name: studentData.first_name,
+        last_name: studentData.last_name,
+        gender: studentData.gender,
+        birthday: studentData.birthday,
+        group: studentData.group
+    };
 
-    let student_data = {first_name, last_name, gender, birthday: formatted_date, group};
-
-    if (editing_index === -1) {
-        students.push(student_data);
-    } else {
-        students[editing_index] = student_data;
-        editing_index = -1;
-    }
+    students.push(student_data);
 
     console.log(students);
     close_modal_window();
-
     update_table();
+
+    document.getElementById("save_student").style.display = "none";
 }
 
 function update_table() {
@@ -102,15 +92,17 @@ function update_table() {
     let start = (current_page - 1) * students_per_page;
     let end = start + students_per_page;
     let show_students = students.slice(start, end);
+    
 
     show_students.forEach((student, index) => {
+        let formatted_date = new Date(student.birthday).toLocaleDateString("uk-UA");
         let new_row = table_body.insertRow(index);
         new_row.innerHTML = `
-            <td><div><input type="checkbox"></div></td>
+            <td><div><input type="checkbox" class="student_checkbox"></div></td>
             <td><b>${student.group}</b></td>
             <td><b class="student_name">${student.first_name} ${student.last_name}</b></td>
             <td><b>${student.gender}</b></td>
-            <td><b>${student.birthday}</b></td>
+            <td><b>${formatted_date}</b></td>
             <td>
                 <b>
                     <svg viewBox="0 0 30 14" xmlns="http://www.w3.org/2000/svg" fill="#bfbfbf">
@@ -120,13 +112,13 @@ function update_table() {
             </td>
             <td>
                 <div class="edit_btns">
-                    <button onclick="edit_row(this)">
+                    <button onclick="edit_row(${student.id})">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
                             <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                         </svg>
                     </button>
 
-                    <button onclick="delete_row(this)">
+                    <button onclick="delete_row(${student.id})">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>  
@@ -137,7 +129,6 @@ function update_table() {
     });
     update_pagination();
 }
-
 
 function update_pagination() {
     let pagination = document.querySelector(".pagination_num_btns");
@@ -167,86 +158,54 @@ function update_pagination() {
     next_btn.hidden = current_page === total_pages;
 }
 
-
-function delete_row(btn) {
-    const row = btn.closest("tr");
-
-    if (!row) {
+function delete_row(id) {
+    const index = students.findIndex(student => student.id === id);
+    if (index === -1) {
+        alert("Студент не знайдений!");
         return;
     }
 
-    let group = row.cells[1].textContent.trim();
-    let full_name = row.cells[2].textContent.trim();
-    let gender = row.cells[3].textContent.trim();
-    let birthday = row.cells[4].textContent.trim();
-
-    let [first_name, last_name] = full_name.split(" ");
-
-    const confirmation = confirm(`Are you sure you want to delete user: ${first_name} ${last_name}?`);
-
-    if (confirmation) {
-        row.remove();
-
-        let index = students.findIndex(student => 
-            student.first_name === first_name &&
-            student.last_name === last_name &&
-            student.group === group &&
-            student.gender === gender &&
-            student.birthday === birthday
-        );
-
-        if (index !== -1) {
-            students.splice(index, 1);
-        }
-
-        console.log(students);
+    if (confirm("Ви дійсно хочете видалити цього студента?")) {
+        students.splice(index, 1);
         update_table();
+        console.log(students);
     }
 }
 
-function edit_row(btn) {
-    const row = btn.closest("tr");
-    if (!row) return;
-
-    let group = row.cells[1].textContent.trim();
-    let full_name = row.cells[2].textContent.trim();
-    let gender = row.cells[3].textContent.trim();
-    let birthday = row.cells[4].textContent.trim();
-
-    let [first_name, last_name] = full_name.split(" ");
-
-    let index = students.findIndex(student => 
-        student.first_name === first_name &&
-        student.last_name === last_name &&
-        student.group === group &&
-        student.gender === gender &&
-        student.birthday === birthday
-    );
-
-    if (index !== -1) {
-        editing_index = index;
-
-        document.getElementById("modal_title").textContent = "Edit student";
-        document.getElementById("save_student").textContent = "Save";
-
-        document.getElementById("student_first_name").value = students[index].first_name;
-        document.getElementById("student_last_name").value = students[index].last_name;
-        document.getElementById("student_group").value = students[index].group;
-        document.getElementById("student_gender").value = students[index].gender;
-
-        let date = students[index].birthday;
-
-        if (date) {
-            let parts = date.split(".");
-            let formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-            console.log("Original Date:", date);
-            console.log("Formatted Date:", formattedDate);
-
-            document.getElementById("student_birthday").value = formattedDate;
-        }
-        document.getElementById("user_modal").style.display = "block";
+function edit_row(id) {
+    const student = students.find(student => student.id === id);
+    if (!student) {
+        alert("Студент не знайдений!");
+        return;
     }
+    
+    document.querySelector('input[name="student_id"]').value = student.id;
+    document.getElementById("student_first_name").value = student.first_name;
+    document.getElementById("student_last_name").value = student.last_name;
+    document.getElementById("student_gender").value = student.gender;
+    document.getElementById("student_birthday").value = student.birthday;
+    document.getElementById("student_group").value = student.group;
+    
+    document.getElementById("user_modal").style.display = "block";
+    document.getElementById("add_student").style.display = "none";
+    document.getElementById("save_student").style.display = "block";
+    
+    document.getElementById("save_student").onclick = function () {
+        student.first_name = document.getElementById("student_first_name").value.trim();
+        student.last_name = document.getElementById("student_last_name").value.trim();
+        student.gender = document.getElementById("student_gender").value;
+        student.group = document.getElementById("student_group").value;
+        student.birthday = document.getElementById("student_birthday").value;
+        
+        if (!student.first_name || !student.last_name || !student.birthday || !student.group) {
+            alert("Будь ласка, заповніть всі поля!");
+            return;
+        }
+        
+        close_modal_window();
+        update_table();
+        console.log(students);
+    };
 }
 
 update_table();

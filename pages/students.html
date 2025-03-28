@@ -93,7 +93,9 @@
         <table>
             <thead>
                 <tr>
-                    <td></td>
+                    <td>
+                        <div><input type="checkbox" id="all_checked"></div>
+                    </td>
                     <td>
                         <b>Group</b>
                     </td>
@@ -143,6 +145,7 @@
             <div class="modal_content">
                 <span class="close">&times;</span>
                 <h2 id="modal_title">Add student</h2>
+                <input type="hidden" name="student_id">
                 
                 <div>
                     <label>Group</label>
@@ -181,7 +184,8 @@
 
                 <div class="modal_btns">
                     <button id="cancel_student">Cancel</button>
-                    <button id="save_student">Add</button>
+                    <button id="add_student">Add</button>
+                    <button id="save_student">Save</button>
                 </div>
             </div>
         </div>
