@@ -1,5 +1,5 @@
 const API_URL = "http://localhost:5500/server/server.php"; 
-const students_per_page = 3;
+const students_per_page = 8;
 let students = [];
 let current_page = 1;
 
@@ -110,7 +110,7 @@ function update_table() {
             </td>
             <td>
                 <div class="edit_btns">
-                    <button onclick="edit_row(${student.id})">
+                    <button onclick="edit_row('${student.id}')">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
                             <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                         </svg>
@@ -129,7 +129,6 @@ function update_table() {
     update_pagination();
 }
 
-// Оновлення нумерації сторінок
 function update_pagination() {
     let pagination = document.querySelector(".pagination_num_btns");
     pagination.innerHTML = "";
@@ -196,7 +195,6 @@ function edit_row(studentId) {
     document.getElementById("save_student").style.display = "block";
 }
 
-// Функція для збереження оновлених даних студента
 function save_student() {
     let studentId = document.getElementById("save_student").getAttribute("data-id");
     if (!studentId) {
@@ -221,7 +219,7 @@ function save_student() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            fetchStudents(); // Оновлюємо список студентів
+            fetchStudents();
             close_modal_window();
         })
         .catch(error => console.error("Помилка при оновленні студента:", error));
