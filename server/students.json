@@ -34,9 +34,9 @@
     {
         "id": "67ebb73f51b123.92934897",
         "first_name": "Andrii",
-        "last_name": "Hudima",
+        "last_name": "Hudyma",
         "gender": "Male",
-        "birthday": "2006-08-09",
+        "birthday": "2006-02-17",
         "group": "PZ-26"
     },
     {
@@ -56,35 +56,43 @@
         "group": "PZ-21"
     },
     {
-        "id": "67ebc0062b7591.92216239",
-        "first_name": "Mykola",
-        "last_name": "Kovpak",
-        "gender": "Male",
-        "birthday": "2006-11-19",
-        "group": "PZ-24"
-    },
-    {
-        "id": "67ebc4341d2423.98863304",
-        "first_name": "Nazar",
-        "last_name": "Horoshko",
-        "gender": "Male",
-        "birthday": "2006-04-06",
-        "group": "PZ-26"
-    },
-    {
-        "id": "67ebc488980b74.44223035",
-        "first_name": "Roman",
-        "last_name": "Tymyk",
-        "gender": "Male",
-        "birthday": "2006-06-23",
-        "group": "PZ-26"
-    },
-    {
-        "id": "67ebc4a6bf65d2.86753566",
+        "id": "67efc8fa0ba929.97428917",
         "first_name": "Ivan",
         "last_name": "Petrenko",
-        "gender": "Female",
-        "birthday": "2006-01-13",
+        "gender": "Male",
+        "birthday": "2025-04-04",
         "group": "PZ-21"
+    },
+    {
+        "id": "67f67429e62ed2.09283420",
+        "first_name": "Ivan",
+        "last_name": "Petrenko",
+        "gender": "Male",
+        "birthday": "2025-04-09",
+        "group": "PZ-21"
+    },
+    {
+        "id": "67f67fc14a5458.11161274",
+        "first_name": "Ivan",
+        "last_name": "Petrenko",
+        "gender": "Male",
+        "birthday": "2025-04-09",
+        "group": "PZ-21"
+    },
+    {
+        "id": "67f682f8a9eae0.71653548",
+        "first_name": "Ivans",
+        "last_name": "Petrenko",
+        "gender": "Male",
+        "birthday": "2025-03-23",
+        "group": "PZ-22"
+    },
+    {
+        "id": "67f695dd5cc4f6.15765773",
+        "first_name": "Maria",
+        "last_name": "Semenova",
+        "gender": "Female",
+        "birthday": "2022-06-30",
+        "group": "PZ-22"
     }
 ]
