@@ -32,8 +32,11 @@ b {
 
 .add {
     margin-right: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     float: right;
 }
 
-/*кнопки зліва і пагінація, гіт відкрити і лінк в звіт*/
+h2 {
+    margin-top: 2%;
+    margin-bottom: 3%;
+}
