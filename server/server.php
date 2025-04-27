@@ -12,12 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+// Отримання URI запиту
+$request_uri = $_SERVER['REQUEST_URI'];
+$uri_parts = explode('/', trim(parse_url($request_uri, PHP_URL_PATH), '/'));
+
+// Знаходження індексу "students" у URI
+$students_index = array_search('students', $uri_parts);
+$resource_id = null;
+
+// Перевірка, чи є ID ресурсу після "students" в URI
+if ($students_index !== false && isset($uri_parts[$students_index + 1])) {
+    $resource_id = $uri_parts[$students_index + 1];
+}
+
 $request_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($request_method) {
     case 'GET':
-        if (isset($_GET['id'])) {
-            getStudent($_GET['id']);
+        if ($resource_id) {
+            getStudent($resource_id);
         } else {
             getStudents();
         }
@@ -26,13 +39,17 @@ switch ($request_method) {
         addStudent();
         break;
     case 'PUT':
-        updateStudent();
+        if ($resource_id) {
+            updateStudent($resource_id);
+        } else {
+            response(400, 'Bad Request', 'Student ID not provided in URL');
+        }
         break;
     case 'DELETE':
-        if (isset($_GET['id'])) {
-            deleteStudent($_GET['id']);
+        if ($resource_id) {
+            deleteStudent($resource_id);
         } else {
-            response(400, 'Bad Request', 'Student ID not provided');
+            response(400, 'Bad Request', 'Student ID not provided in URL');
         }
         break;
     default:
@@ -212,13 +229,11 @@ function addStudent() {
     $birthday = $conn->real_escape_string($data['birthday']);
     $student_group = $conn->real_escape_string($data['student_group']);
     
-    $unique_id = uniqid('std_', true);
-    
-    $sql = "INSERT INTO students (id, first_name, last_name, gender, birthday, student_group) 
-            VALUES ('$unique_id', '$first_name', '$last_name', '$gender', '$birthday', '$student_group')";
+    $sql = "INSERT INTO students (first_name, last_name, gender, birthday, student_group) 
+            VALUES ('$first_name', '$last_name', '$gender', '$birthday', '$student_group')";
     
     if ($conn->query($sql) === TRUE) {
-        $data['id'] = $unique_id;
+        $data['id'] = $conn->insert_id;
         
         response(201, 'Created', 'Student added successfully', $data);
     } else {
@@ -226,7 +241,7 @@ function addStudent() {
     }
 }
 
-function updateStudent() {
+function updateStudent($id) {
     global $conn;
     
     $json_data = file_get_contents('php://input');
@@ -240,11 +255,8 @@ function updateStudent() {
         response(400, 'Bad Request', 'Invalid JSON format');
         return;
     }
-    
-    if (!isset($data['id']) || empty($data['id'])) {
-        response(400, 'Bad Request', 'Student ID is required');
-        return;
-    }
+
+    $id = $conn->real_escape_string($id);
     
     $validation_errors = validateStudentData($data, false);
     if (!empty($validation_errors)) {
@@ -252,15 +264,6 @@ function updateStudent() {
         return;
     }
     
-    $id = $conn->real_escape_string($data['id']);
-    
-    $check_sql = "SELECT id FROM students WHERE id = '$id'";
-    $check_result = $conn->query($check_sql);
-    if ($check_result->num_rows === 0) {
-        response(404, 'Not Found', 'Student not found');
-        return;
-    }
-
     $updates = array();
     
     if (isset($data['first_name'])) {
@@ -296,7 +299,12 @@ function updateStudent() {
     $sql = "UPDATE students SET " . implode(", ", $updates) . " WHERE id = '$id'";
     
     if ($conn->query($sql) === TRUE) {
-        response(200, 'Success', 'Student updated successfully', $data);
+        if ($conn->affected_rows > 0) {
+            $data['id'] = $id;
+            response(200, 'Success', 'Student updated successfully', $data);
+        } else {
+            response(404, 'Not Found', 'Student not found');
+        }
     } else {
         response(500, 'Internal Server Error', $conn->error);
     }
@@ -312,17 +320,14 @@ function deleteStudent($id) {
     
     $id = $conn->real_escape_string($id);
     
-    $check_sql = "SELECT id FROM students WHERE id = '$id'";
-    $check_result = $conn->query($check_sql);
-    if ($check_result->num_rows === 0) {
-        response(404, 'Not Found', 'Student not found');
-        return;
-    }
-    
     $sql = "DELETE FROM students WHERE id = '$id'";
     
     if ($conn->query($sql) === TRUE) {
-        response(200, 'Success', 'Student deleted successfully');
+        if ($conn->affected_rows > 0) {
+            response(200, 'Success', 'Student deleted successfully');
+        } else {
+            response(404, 'Not Found', 'Student not found');
+        }
     } else {
         response(500, 'Internal Server Error', $conn->error);
     }

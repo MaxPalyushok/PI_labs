@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5500/server/server.php';
+const BASE_URL = 'http://localhost:5500/server/server.php';
+const API_URL = `${BASE_URL}/students`;
 
 let students = [];
 const students_per_page = 8;
@@ -110,7 +111,7 @@ function add_student() {
 }
 
 function edit_student(id) {
-    fetch(`${API_URL}?id=${id}`)
+    fetch(`${API_URL}/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'Success') {
@@ -153,7 +154,7 @@ function save_student() {
         return;
     }
 
-    fetch(API_URL, {
+    fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -177,7 +178,7 @@ function save_student() {
 
 function delete_student(id) {
     if (confirm("Ви дійсно хочете видалити цього студента?")) {
-        fetch(`${API_URL}?id=${id}`, {
+        fetch(`${API_URL}/${id}`, {
             method: 'DELETE'
         })
         .then(response => response.json())
